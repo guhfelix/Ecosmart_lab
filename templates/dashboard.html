@@ -42,25 +42,25 @@
     <h5 class="mb-3">Ações Rápidas</h5>
   </div>
   <div class="col-md-3">
-    <a href="{{ url_for('registrar_descarte') }}" class="btn btn-outline-success w-100 py-3">
+    <a href="{{ url_for('citizen.registrar_descarte') }}" class="btn btn-outline-success w-100 py-3">
       <i class="bi bi-recycle fs-4 d-block mb-1"></i>
       Registrar Descarte
     </a>
   </div>
   <div class="col-md-3">
-    <a href="{{ url_for('pontos') }}" class="btn btn-outline-secondary w-100 py-3">
+    <a href="{{ url_for('citizen.pontos') }}" class="btn btn-outline-secondary w-100 py-3">
       <i class="bi bi-geo-alt fs-4 d-block mb-1"></i>
       Pontos de Coleta
     </a>
   </div>
   <div class="col-md-3">
-    <a href="{{ url_for('beneficios') }}" class="btn btn-outline-warning w-100 py-3">
+    <a href="{{ url_for('citizen.beneficios') }}" class="btn btn-outline-warning w-100 py-3">
       <i class="bi bi-gift fs-4 d-block mb-1"></i>
       Resgatar Benefícios
     </a>
   </div>
   <div class="col-md-3">
-    <a href="{{ url_for('relatorio_pessoal') }}" class="btn btn-outline-primary w-100 py-3">
+    <a href="{{ url_for('citizen.relatorio_pessoal') }}" class="btn btn-outline-primary w-100 py-3">
       <i class="bi bi-bar-chart-line fs-4 d-block mb-1"></i>
       Meu Relatório
     </a>
@@ -71,7 +71,7 @@
 <div class="card shadow-sm">
   <div class="card-header bg-white d-flex justify-content-between align-items-center">
     <h6 class="mb-0"><i class="bi bi-clock-history text-success"></i> Últimos Descartes</h6>
-    <a href="{{ url_for('relatorio_pessoal') }}" class="btn btn-sm btn-outline-success">Ver todos</a>
+    <a href="{{ url_for('citizen.relatorio_pessoal') }}" class="btn btn-sm btn-outline-success">Ver todos</a>
   </div>
   <div class="card-body p-0">
     {% if ultimos_descartes %}
@@ -101,7 +101,7 @@
     <div class="p-4 text-center text-muted">
       <i class="bi bi-inbox fs-3 d-block mb-2"></i>
       Você ainda não realizou nenhum descarte.
-      <a href="{{ url_for('registrar_descarte') }}" class="d-block mt-2">Registrar agora</a>
+      <a href="{{ url_for('citizen.registrar_descarte') }}" class="d-block mt-2">Registrar agora</a>
     </div>
     {% endif %}
   </div>
