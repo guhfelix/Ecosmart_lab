@@ -1,28 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>{{ acao }} Ponto de Coleta</h2>
+<h2 class="mb-4">{{ acao }} Ponto de Coleta</h2>
 
-<form method="POST">
-    <label>Nome:</label><br>
-    <input type="text" name="nome" required
-           value="{{ ponto.nome if ponto else '' }}"><br><br>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-    <label>Endereço:</label><br>
-    <input type="text" name="endereco" required
-           value="{{ ponto.endereco if ponto else '' }}"><br><br>
+          <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <input type="text" name="nome" class="form-control" required
+                   value="{{ ponto.nome if ponto else '' }}">
+          </div>
 
-    <label>Tipos aceitos:</label><br>
-    <input type="text" name="tipos_aceitos" required
-           value="{{ ponto.tipos_aceitos if ponto else '' }}"><br><br>
+          <div class="mb-3">
+            <label class="form-label">Endereço</label>
+            <input type="text" name="endereco" class="form-control" required
+                   value="{{ ponto.endereco if ponto else '' }}">
+          </div>
 
-    <label>Horário de funcionamento:</label><br>
-    <input type="text" name="horario_funcionamento"
-           value="{{ ponto.horario_funcionamento if ponto else '' }}"><br><br>
+          <div class="mb-3">
+            <label class="form-label">Tipos aceitos</label>
+            <input type="text" name="tipos_aceitos" class="form-control" required
+                   value="{{ ponto.tipos_aceitos if ponto else '' }}">
+          </div>
 
-    <button type="submit">{{ acao }}</button>
-</form>
+          <div class="mb-3">
+            <label class="form-label">Horário de funcionamento</label>
+            <input type="text" name="horario_funcionamento" class="form-control"
+                   value="{{ ponto.horario_funcionamento if ponto else '' }}">
+          </div>
 
-<p>
-    <a href="{{ url_for('admin_pontos') }}">Voltar para lista de pontos</a>
-</p>
+          <button type="submit" class="btn btn-success">{{ acao }}</button>
+          <a href="{{ url_for('admin.admin_pontos') }}" class="btn btn-outline-secondary ms-2">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

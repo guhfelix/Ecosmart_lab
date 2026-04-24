@@ -68,10 +68,10 @@
     {% endif %}
 
     <div class="mt-3 mb-3 d-flex flex-wrap gap-2">
-    <a href="{{ url_for('exportar_relatorios_csv') }}" class="btn btn-outline-primary btn-sm">
+    <a href="{{ url_for('admin.exportar_relatorios_csv') }}" class="btn btn-outline-primary btn-sm">
         Exportar detalhado (todos os descartes)
     </a>
-    <a href="{{ url_for('exportar_relatorios_resumo_pontos_csv') }}" class="btn btn-outline-success btn-sm">
+    <a href="{{ url_for('admin.exportar_relatorios_resumo_pontos_csv') }}" class="btn btn-outline-success btn-sm">
         Exportar resumo por ponto de coleta
     </a>
 </div>

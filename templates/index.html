@@ -17,19 +17,19 @@
 
         {% if current_user.is_authenticated %}
           <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('registrar_descarte') }}" class="btn btn-success btn-lg">
+            <a href="{{ url_for('citizen.registrar_descarte') }}" class="btn btn-success btn-lg">
               <i class="bi bi-recycle"></i> Registrar descarte
             </a>
-            <a href="{{ url_for('relatorio_pessoal') }}" class="btn btn-outline-light btn-lg">
+            <a href="{{ url_for('citizen.relatorio_pessoal') }}" class="btn btn-outline-light btn-lg">
               <i class="bi bi-bar-chart-line"></i> Ver meu impacto
             </a>
           </div>
         {% else %}
           <div class="d-flex flex-wrap gap-2">
-            <a href="{{ url_for('login') }}" class="btn btn-success btn-lg">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-success btn-lg">
               <i class="bi bi-box-arrow-in-right"></i> Entrar
             </a>
-            <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-outline-light btn-lg">
               <i class="bi bi-person-plus"></i> Criar conta
             </a>
           </div>
@@ -179,11 +179,11 @@
           </p>
         </div>
         {% if current_user.is_authenticated %}
-          <a href="{{ url_for('relatorio_pessoal') }}" class="btn btn-outline-success mt-2 mt-md-0">
+          <a href="{{ url_for('citizen.relatorio_pessoal') }}" class="btn btn-outline-success mt-2 mt-md-0">
             Ver meus relatórios
           </a>
         {% else %}
-          <a href="{{ url_for('register') }}" class="btn btn-outline-success mt-2 mt-md-0">
+          <a href="{{ url_for('auth.register') }}" class="btn btn-outline-success mt-2 mt-md-0">
             Criar conta e participar
           </a>
         {% endif %}

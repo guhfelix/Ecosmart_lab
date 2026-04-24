@@ -4,10 +4,10 @@
 <h2 class="mb-3">Gestão de Pontos de Coleta</h2>
 
 <p>
-    <a href="{{ url_for('novo_ponto') }}" class="btn btn-success btn-sm">
+    <a href="{{ url_for('admin.novo_ponto') }}" class="btn btn-success btn-sm">
         + Cadastrar novo ponto
     </a>
-    <a href="{{ url_for('pontos') }}" class="btn btn-outline-secondary btn-sm ms-2">
+    <a href="{{ url_for('citizen.pontos') }}" class="btn btn-outline-secondary btn-sm ms-2">
         Ver lista pública
     </a>
 </p>
@@ -32,13 +32,14 @@
                 {% endif %}
 
                 <div class="d-flex gap-2 mt-2">
-                    <a href="{{ url_for('editar_ponto', ponto_id=p.id) }}"
+                    <a href="{{ url_for('admin.editar_ponto', ponto_id=p.id) }}"
                        class="btn btn-sm btn-outline-primary">
                         Editar
                     </a>
-                    <form action="{{ url_for('excluir_ponto', ponto_id=p.id) }}"
+                    <form action="{{ url_for('admin.excluir_ponto', ponto_id=p.id) }}"
                           method="POST"
                           onsubmit="return confirm('Tem certeza que deseja excluir este ponto?');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <button type="submit" class="btn btn-sm btn-outline-danger">
                             Excluir
                         </button>
