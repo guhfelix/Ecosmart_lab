@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2><i class="bi bi-ticket-perforated text-success"></i> Meus Resgates</h2>
+  <a href="{{ url_for('citizen.beneficios') }}" class="btn btn-outline-success btn-sm">
+    <i class="bi bi-gift"></i> Ver Benefícios Disponíveis
+  </a>
+</div>
+
+{% if resgates %}
+<!-- Resumo -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card text-bg-warning shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title"><i class="bi bi-star-fill"></i> Pontos Utilizados</h6>
+        <p class="fs-2 fw-bold mb-0">{{ total_pontos_gastos }}</p>
+        <small>em resgates realizados</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-bg-success shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title"><i class="bi bi-check-circle-fill"></i> Total de Resgates</h6>
+        <p class="fs-2 fw-bold mb-0">{{ resgates|length }}</p>
+        <small>benefícios resgatados</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-bg-primary shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title"><i class="bi bi-wallet2"></i> Saldo Atual</h6>
+        <p class="fs-2 fw-bold mb-0">{{ current_user.saldo_pontos }}</p>
+        <small>pontos disponíveis</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabela de resgates -->
+<div class="card shadow-sm">
+  <div class="card-header bg-white">
+    <h6 class="mb-0"><i class="bi bi-clock-history text-success"></i> Histórico Completo</h6>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Data do Resgate</th>
+            <th>Benefício</th>
+            <th>Tipo</th>
+            <th>Pontos Usados</th>
+            <th>Código do Voucher</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in resgates %}
+          <tr>
+            <td>{{ r.data_resgate.strftime("%d/%m/%Y %H:%M") }}</td>
+            <td>{{ r.nome_beneficio }}</td>
+            <td><span class="badge bg-secondary">{{ r.tipo_beneficio }}</span></td>
+            <td><span class="text-danger fw-bold">-{{ r.pontos_utilizados }}</span></td>
+            <td>
+              <code class="text-success fw-bold">{{ r.codigo_voucher }}</code>
+            </td>
+            <td>
+              {% if r.status == "ATIVO" %}
+                <span class="badge bg-success">ATIVO</span>
+              {% elif r.status == "USADO" %}
+                <span class="badge bg-secondary">USADO</span>
+              {% else %}
+                <span class="badge bg-warning text-dark">{{ r.status }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% else %}
+<div class="alert alert-info mt-3">
+  <i class="bi bi-info-circle"></i> Você ainda não resgatou nenhum benefício.
+  <a href="{{ url_for('citizen.beneficios') }}" class="alert-link">Ver benefícios disponíveis</a>.
+</div>
+{% endif %}
+{% endblock %}

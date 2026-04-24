@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
+from flask_bcrypt import Bcrypt
 from flask_login import login_user, logout_user, login_required
 from models import db, Usuario
 
@@ -12,8 +13,6 @@ def register():
         email = request.form["email"]
         senha = request.form["senha"]
 
-        from flask import current_app
-        from flask_bcrypt import Bcrypt
         bcrypt = Bcrypt(current_app)
 
         usuario_existente = Usuario.query.filter_by(email=email).first()
@@ -39,13 +38,15 @@ def login():
         email = request.form["email"]
         senha = request.form["senha"]
 
-        from flask import current_app
-        from flask_bcrypt import Bcrypt
         bcrypt = Bcrypt(current_app)
-
         usuario = Usuario.query.filter_by(email=email).first()
 
         if usuario and bcrypt.check_password_hash(usuario.senha_hash, senha):
+            # Verifica se a conta está ativa antes de permitir o login
+            if not usuario.ativo:
+                flash("A sua conta está desativada. Entre em contacto com o administrador.", "danger")
+                return redirect(url_for("auth.login"))
+
             login_user(usuario)
             flash("Login realizado com sucesso!", "success")
             return redirect(url_for("main.index"))
