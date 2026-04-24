@@ -1,24 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2 class="mb-3">Pontos de Coleta</h2>
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    #map { height: 400px; border-radius: 8px; z-index: 1; }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-geo-alt text-success"></i> Pontos de Coleta</h2>
+    {% if current_user.papel in ['GESTOR', 'ADMIN'] %}
+    <a href="{{ url_for('admin.admin_pontos') }}" class="btn btn-outline-success btn-sm">
+        <i class="bi bi-gear"></i> Gerir Pontos
+    </a>
+    {% endif %}
+</div>
+
 <p class="text-muted">
     Encontre abaixo os pontos de coleta disponíveis para descarte adequado de resíduos.
 </p>
+
+<!-- Mapa Interativo -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body p-2">
+        <div id="map"></div>
+    </div>
+</div>
 
 {% if pontos %}
 <div class="row">
     {% for ponto in pontos %}
     <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm border-0 border-top border-4 border-success">
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ ponto.nome }}</h5>
-                <p class="card-text mb-1">
-                    <strong>Endereço:</strong><br>
-                    {{ ponto.endereco }}
+                <p class="card-text mb-2">
+                    <i class="bi bi-pin-map text-danger"></i> <strong>Endereço:</strong><br>
+                    <span class="small">{{ ponto.endereco }}</span>
                 </p>
 
-                <p class="card-text mb-1">
+                <p class="card-text mb-2">
                     <strong>Tipos aceitos:</strong><br>
                     {% if ponto.tipos_aceitos %}
                         {% for tipo in ponto.tipos_aceitos.split(',') %}
@@ -31,25 +52,55 @@
                     {% endif %}
                 </p>
 
-                <p class="card-text mb-2">
-                    <strong>Horário de funcionamento:</strong><br>
-                    {% if ponto.horario_funcionamento %}
-                        {{ ponto.horario_funcionamento }}
-                    {% else %}
-                        <span class="text-muted">Não informado</span>
-                    {% endif %}
+                <p class="card-text mb-3">
+                    <i class="bi bi-clock"></i> <strong>Horário:</strong><br>
+                    <span class="small">{{ ponto.horario_funcionamento or 'Não informado' }}</span>
                 </p>
 
                 <div class="mt-auto">
-                    <small class="text-muted">
-                        Utilize este ponto para descartar resíduos de forma correta e sustentável.
-                    </small>
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ ponto.endereco|urlencode }}" target="_blank" class="btn btn-sm btn-outline-primary w-100">
+                        <i class="bi bi-box-arrow-up-right"></i> Ver no Google Maps
+                    </a>
                 </div>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializa o mapa focado em Portugal (ou centro genérico)
+        // Em produção, isto deveria ser focado na cidade do projeto
+        var map = L.map('map').setView([-23.5505, -46.6333], 12); // Exemplo: São Paulo
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var bounds = [];
+
+        var hasMarkers = false;
+        {% for ponto in pontos %}
+            {% if ponto.latitude and ponto.longitude %}
+                var marker = L.marker([{{ ponto.latitude }}, {{ ponto.longitude }}]).addTo(map);
+                marker.bindPopup("<b>{{ ponto.nome }}</b><br>{{ ponto.endereco }}<br><small>Tipos: {{ ponto.tipos_aceitos }}</small>");
+                bounds.push([{{ ponto.latitude }}, {{ ponto.longitude }}]);
+                hasMarkers = true;
+            {% endif %}
+        {% endfor %}
+
+        if (hasMarkers) {
+            map.fitBounds(bounds);
+        } else {
+            // Foco padrão caso não haja pontos com coordenadas
+            map.setView([-15.7942, -47.8822], 4); // Centro do Brasil
+        }
+    });
+</script>
+
 {% else %}
     <div class="alert alert-info mt-3">
         Ainda não há pontos de coleta cadastrados no sistema.

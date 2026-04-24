@@ -26,6 +26,8 @@ class PontoColeta(db.Model):
     endereco = db.Column(db.String(255), nullable=False)
     tipos_aceitos = db.Column(db.String(255), nullable=False)
     horario_funcionamento = db.Column(db.String(120))
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)
 
 class Descarte(db.Model):
     __tablename__ = "descartes"
