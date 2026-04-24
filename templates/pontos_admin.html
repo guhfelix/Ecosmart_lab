@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-3">Gestão de Pontos de Coleta</h2>
+
+<p>
+    <a href="{{ url_for('novo_ponto') }}" class="btn btn-success btn-sm">
+        + Cadastrar novo ponto
+    </a>
+    <a href="{{ url_for('pontos') }}" class="btn btn-outline-secondary btn-sm ms-2">
+        Ver lista pública
+    </a>
+</p>
+
+{% if pontos %}
+<div class="row g-3 mt-2">
+    {% for p in pontos %}
+    <div class="col-12 col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ p.nome }}</h5>
+                <p class="card-text mb-1">
+                    <strong>Endereço:</strong> {{ p.endereco }}
+                </p>
+                <p class="card-text mb-1">
+                    <strong>Tipos aceitos:</strong> {{ p.tipos_aceitos }}
+                </p>
+                {% if p.horario_funcionamento %}
+                <p class="card-text mb-2">
+                    <strong>Funcionamento:</strong> {{ p.horario_funcionamento }}
+                </p>
+                {% endif %}
+
+                <div class="d-flex gap-2 mt-2">
+                    <a href="{{ url_for('editar_ponto', ponto_id=p.id) }}"
+                       class="btn btn-sm btn-outline-primary">
+                        Editar
+                    </a>
+                    <form action="{{ url_for('excluir_ponto', ponto_id=p.id) }}"
+                          method="POST"
+                          onsubmit="return confirm('Tem certeza que deseja excluir este ponto?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            Excluir
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <div class="alert alert-info mt-3">
+        Não há pontos de coleta cadastrados.
+    </div>
+{% endif %}
+
+{% endblock %}

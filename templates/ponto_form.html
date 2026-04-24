@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ acao }} Ponto de Coleta</h2>
+
+<form method="POST">
+    <label>Nome:</label><br>
+    <input type="text" name="nome" required
+           value="{{ ponto.nome if ponto else '' }}"><br><br>
+
+    <label>Endereço:</label><br>
+    <input type="text" name="endereco" required
+           value="{{ ponto.endereco if ponto else '' }}"><br><br>
+
+    <label>Tipos aceitos:</label><br>
+    <input type="text" name="tipos_aceitos" required
+           value="{{ ponto.tipos_aceitos if ponto else '' }}"><br><br>
+
+    <label>Horário de funcionamento:</label><br>
+    <input type="text" name="horario_funcionamento"
+           value="{{ ponto.horario_funcionamento if ponto else '' }}"><br><br>
+
+    <button type="submit">{{ acao }}</button>
+</form>
+
+<p>
+    <a href="{{ url_for('admin_pontos') }}">Voltar para lista de pontos</a>
+</p>
+{% endblock %}

@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- HERO PRINCIPAL -->
+<section class="py-5 hero-ecosmart mb-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h1 class="display-5 fw-bold mb-3">
+          EcoSmart – Gestão Inteligente de Resíduos Urbanos
+        </h1>
+        <p class="lead mb-4">
+          O EcoSmart conecta cidadãos, prefeituras e parceiros em uma única
+          plataforma para incentivar o descarte correto, a reciclagem e a
+          economia circular, com base em dados e recompensas.
+        </p>
+
+        {% if current_user.is_authenticated %}
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('registrar_descarte') }}" class="btn btn-success btn-lg">
+              <i class="bi bi-recycle"></i> Registrar descarte
+            </a>
+            <a href="{{ url_for('relatorio_pessoal') }}" class="btn btn-outline-light btn-lg">
+              <i class="bi bi-bar-chart-line"></i> Ver meu impacto
+            </a>
+          </div>
+        {% else %}
+          <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('login') }}" class="btn btn-success btn-lg">
+              <i class="bi bi-box-arrow-in-right"></i> Entrar
+            </a>
+            <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg">
+              <i class="bi bi-person-plus"></i> Criar conta
+            </a>
+          </div>
+          <p class="text-light mt-3 mb-0">
+            Sem cadastro ainda? Crie sua conta em poucos minutos e comece a
+            acumular pontos por descartes sustentáveis.
+          </p>
+        {% endif %}
+      </div>
+
+      <div class="col-lg-5 mt-4 mt-lg-0">
+        <div class="card shadow-lg border-0">
+          <div class="card-body">
+            <h5 class="card-title mb-3">
+              <i class="bi bi-info-circle"></i> O que você pode fazer no EcoSmart
+            </h5>
+            <ul class="list-unstyled mb-0 small">
+              <li class="mb-2">
+                <i class="bi bi-geo-alt-fill text-success"></i>
+                Localizar pontos de coleta próximos e adequados ao tipo de resíduo.
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-gift-fill text-success"></i>
+                Acumular pontos e resgatar benefícios em contas públicas ou parceiros.
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-bar-chart-fill text-success"></i>
+                Acompanhar relatórios pessoais e apoiar políticas públicas ambientais.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- POR QUE USAR O ECOSMART? -->
+<section class="mb-5">
+  <div class="container">
+    <h2 class="mb-3">Por que usar o EcoSmart?</h2>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="bi bi-people-fill text-success"></i> Engajamento cidadão
+            </h5>
+            <p class="card-text small">
+              O sistema transforma o descarte correto em uma ação recompensadora,
+              com pontos, benefícios e acompanhamento do impacto individual.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="bi bi-building-check text-success"></i> Apoio à gestão pública
+            </h5>
+            <p class="card-text small">
+              Gestores municipais têm acesso a relatórios consolidados sobre volume
+              de resíduos, adesão da população e desempenho dos pontos de coleta.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="bi bi-globe2 text-success"></i> Sustentabilidade baseada em dados
+            </h5>
+            <p class="card-text small">
+              As informações registradas pelo EcoSmart apoiam a formulação de
+              políticas ambientais e o monitoramento de metas de sustentabilidade.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM É O ECOSMART? -->
+<section class="mb-5">
+  <div class="container">
+    <h2 class="mb-3">Para quem o EcoSmart foi desenvolvido?</h2>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Cidadãos</h5>
+            <p class="card-text small">
+              Usuários que desejam descartar resíduos de forma correta, acumular
+              pontos e acompanhar seu impacto ambiental por meio de relatórios
+              pessoais e histórico de descartes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Gestores municipais</h5>
+            <p class="card-text small">
+              Órgãos públicos responsáveis pela coleta, fiscalização e educação
+              ambiental, que utilizam o EcoSmart para monitorar indicadores e
+              planejar ações de gestão de resíduos.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Parceiros e empresas</h5>
+            <p class="card-text small">
+              Instituições que oferecem benefícios e campanhas de incentivo, reforçando
+              sua responsabilidade socioambiental e aproximando a marca da comunidade.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESTAQUE PARA RELATÓRIOS -->
+<section class="mb-4">
+  <div class="container">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div class="mb-2 mb-md-0">
+          <h5 class="card-title mb-1">
+            <i class="bi bi-bar-chart-line"></i> Dados para decisão e conscientização
+          </h5>
+          <p class="card-text small mb-0">
+            Relatórios pessoais e gerenciais permitem acompanhar a evolução do programa,
+            identificar pontos críticos e planejar novas campanhas ambientais.
+          </p>
+        </div>
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('relatorio_pessoal') }}" class="btn btn-outline-success mt-2 mt-md-0">
+            Ver meus relatórios
+          </a>
+        {% else %}
+          <a href="{{ url_for('register') }}" class="btn btn-outline-success mt-2 mt-md-0">
+            Criar conta e participar
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,138 @@
+/* ======== Tema EcoSmart ======== */
+
+/* Fundo geral levemente esverdeado */
+body {
+    background: #f1f7f3;
+}
+
+/* Navbar verde mais “viva” */
+.navbar.bg-success {
+    background: linear-gradient(90deg, #1b5e20, #2e7d32);
+}
+
+/* Marca EcoSmart em destaque */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Links de navegação */
+.nav-link,
+.navbar-text {
+    font-size: 0.95rem;
+}
+
+/* Cartões com bordas arredondadas e leve sombra */
+.card {
+    border-radius: 0.75rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Título de seções principais */
+h1, h2, h3, h4 {
+    color: #1b5e20;
+    font-weight: 600;
+}
+
+/* Botões principais – reforçar o verde EcoSmart */
+.btn-success {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+.btn-success:hover {
+    background-color: #1b5e20;
+    border-color: #1b5e20;
+}
+
+/* Botões outline */
+.btn-outline-success {
+    color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+.btn-outline-success:hover {
+    color: #fff;
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+/* Tabelas mais elegantes */
+.table {
+    background: #ffffff;
+}
+
+.table thead.table-success {
+    background: #c8e6c9;
+}
+
+.table thead.table-dark {
+    background: #1b5e20;
+}
+
+/* Linhas em hover */
+.table-hover tbody tr:hover {
+    background-color: #f1f8e9;
+}
+
+/* Alertas mais suaves */
+.alert-success {
+    background-color: #e8f5e9;
+    border-color: #c8e6c9;
+    color: #1b5e20;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+}
+
+/* Inputs de formulário */
+.form-control, .form-select {
+    border-radius: 0.5rem;
+}
+
+/* Cards de resumo (relatórios) – sombra um pouco mais forte */
+.card.text-bg-primary,
+.card.text-bg-success,
+.card.text-bg-warning {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Espaço extra embaixo do conteúdo pra não colar no rodapé */
+.container {
+    padding-bottom: 2rem;
+}
+
+/* Links dentro de texto (tipo “cadastre-se aqui”) */
+a {
+    color: #2e7d32;
+}
+
+a:hover {
+    color: #1b5e20;
+    text-decoration: underline;
+}
+
+/* Pequeno detalhe em títulos com ícone */
+h2::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 22px;
+    background-color: #66bb6a;
+    border-radius: 3px;
+    margin-right: 8px;
+    vertical-align: -3px;
+}
+
+/* HERO da tela inicial */
+.hero-ecosmart {
+    background: linear-gradient(120deg, #1b5e20, #2e7d32, #43a047);
+    color: #ffffff;
+    border-radius: 0 0 1.5rem 1.5rem;
+}
+
+.hero-ecosmart h1,
+.hero-ecosmart p.lead {
+    color: #ffffff;
+}

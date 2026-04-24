@@ -1,0 +1,29 @@
+# Ambiente virtual
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Instance folders
+instance/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos de ambiente
+.env
+.env.local

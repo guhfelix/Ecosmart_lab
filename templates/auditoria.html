@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Registros de Auditoria</h2>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Data</th>
+        <th>Ação</th>
+    </tr>
+
+    {% for r in registros %}
+    <tr>
+        <td>{{ r.data }}</td>
+        <td>{{ r.acao }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p><a href="{{ url_for('admin_usuarios') }}">Voltar</a></p>
+{% endblock %}

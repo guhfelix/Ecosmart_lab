@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Gerenciar Usuários</h2>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Papel</th>
+        <th>Status</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for u in usuarios %}
+    <tr>
+        <td>{{ u.nome }}</td>
+        <td>{{ u.email }}</td>
+        <td>
+            <form method="POST" action="{{ url_for('alterar_papel', user_id=u.id) }}">
+                <select name="papel">
+                    <option value="CIDADAO" {% if u.papel == "CIDADAO" %}selected{% endif %}>CIDADAO</option>
+                    <option value="GESTOR" {% if u.papel == "GESTOR" %}selected{% endif %}>GESTOR</option>
+                    <option value="PARCEIRO" {% if u.papel == "PARCEIRO" %}selected{% endif %}>PARCEIRO</option>
+                    <option value="ADMIN" {% if u.papel == "ADMIN" %}selected{% endif %}>ADMIN</option>
+                </select>
+                <button type="submit">Salvar</button>
+            </form>
+        </td>
+        <td>{{ "Ativo" if u.ativo else "Desativado" }}</td>
+        <td>
+            <form method="POST" action="{{ url_for('alterar_status_usuario', user_id=u.id) }}">
+                <button type="submit">
+                    {{ "Desativar" if u.ativo else "Ativar" }}
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p><a href="{{ url_for('admin_auditoria') }}">Ver auditoria</a></p>
+<p><a href="{{ url_for('index') }}">Voltar</a></p>
+{% endblock %}

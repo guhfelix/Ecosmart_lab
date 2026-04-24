@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-3">Pontos de Coleta</h2>
+<p class="text-muted">
+    Encontre abaixo os pontos de coleta disponíveis para descarte adequado de resíduos.
+</p>
+
+{% if pontos %}
+<div class="row">
+    {% for ponto in pontos %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ ponto.nome }}</h5>
+                <p class="card-text mb-1">
+                    <strong>Endereço:</strong><br>
+                    {{ ponto.endereco }}
+                </p>
+
+                <p class="card-text mb-1">
+                    <strong>Tipos aceitos:</strong><br>
+                    {% if ponto.tipos_aceitos %}
+                        {% for tipo in ponto.tipos_aceitos.split(',') %}
+                            <span class="badge rounded-pill text-bg-success me-1 mb-1">
+                                {{ tipo.strip() }}
+                            </span>
+                        {% endfor %}
+                    {% else %}
+                        <span class="text-muted">Não informado</span>
+                    {% endif %}
+                </p>
+
+                <p class="card-text mb-2">
+                    <strong>Horário de funcionamento:</strong><br>
+                    {% if ponto.horario_funcionamento %}
+                        {{ ponto.horario_funcionamento }}
+                    {% else %}
+                        <span class="text-muted">Não informado</span>
+                    {% endif %}
+                </p>
+
+                <div class="mt-auto">
+                    <small class="text-muted">
+                        Utilize este ponto para descartar resíduos de forma correta e sustentável.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <div class="alert alert-info mt-3">
+        Ainda não há pontos de coleta cadastrados no sistema.
+    </div>
+{% endif %}
+
+{% endblock %}
