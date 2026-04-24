@@ -10,21 +10,18 @@
         rel="stylesheet"
     >
 
-     <!-- Tema EcoSmart -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ecosmart.css') }}">
+    <!-- Tema EcoSmart -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='ecosmart.css') }}">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Tema EcoSmart -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ecosmart.css') }}">
 
 </head>
 <body class="bg-light">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('index') }}">EcoSmart</a>
+    <a class="navbar-brand" href="{{ url_for('main.index') }}">EcoSmart</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarEco" aria-controls="navbarEco" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,22 +29,27 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
   {% if current_user.is_authenticated %}
     <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('pontos') }}">
+      <a class="nav-link" href="{{ url_for('main.dashboard') }}">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('citizen.pontos') }}">
         <i class="bi bi-geo-alt"></i> Pontos de Coleta
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('registrar_descarte') }}">
+      <a class="nav-link" href="{{ url_for('citizen.registrar_descarte') }}">
         <i class="bi bi-recycle"></i> Registrar Descarte
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('relatorio_pessoal') }}">
+      <a class="nav-link" href="{{ url_for('citizen.relatorio_pessoal') }}">
         <i class="bi bi-bar-chart-line"></i> Meu Relatório
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('beneficios') }}">
+      <a class="nav-link" href="{{ url_for('citizen.beneficios') }}">
         <i class="bi bi-gift"></i> Benefícios
       </a>
     </li>
@@ -58,12 +60,12 @@
         </a>
 
               <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{{ url_for('admin_pontos') }}">Pontos de Coleta</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('admin.admin_pontos') }}">Pontos de Coleta</a></li>
                   {% if current_user.papel == "ADMIN" %}
-                  <li><a class="dropdown-item" href="{{ url_for('admin_usuarios') }}">Usuários</a></li>
-                  <li><a class="dropdown-item" href="{{ url_for('admin_auditoria') }}">Auditoria</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('admin.admin_usuarios') }}">Usuários</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('admin.admin_auditoria') }}">Auditoria</a></li>
                   {% endif %}
-                  <li><a class="dropdown-item" href="{{ url_for('relatorios_gestor') }}">Relatórios de Gestão</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('admin.relatorios_gestor') }}">Relatórios de Gestão</a></li>
               </ul>
           </li>
           {% endif %}
@@ -76,16 +78,16 @@
           <span class="navbar-text me-3">
               <i class="bi bi-person-circle"></i> {{ current_user.nome }} ({{ current_user.papel }})
           </span>
-          <a class="btn btn-outline-light btn-sm" href="{{ url_for('logout') }}">
+          <a class="btn btn-outline-light btn-sm" href="{{ url_for('auth.logout') }}">
             <i class="bi bi-box-arrow-right"></i> Sair
           </a>
 
         {% else %}
        <div class="d-flex gap-2">
-          <a class="btn btn-outline-light btn-sm" href="{{ url_for('login') }}">
+          <a class="btn btn-outline-light btn-sm" href="{{ url_for('auth.login') }}">
             Entrar
           </a>
-          <a class="btn btn-warning btn-sm" href="{{ url_for('register') }}">
+          <a class="btn btn-warning btn-sm" href="{{ url_for('auth.register') }}">
             Criar conta
           </a>
        </div>
