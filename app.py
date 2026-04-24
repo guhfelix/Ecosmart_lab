@@ -36,11 +36,16 @@ from blueprints.main import main_bp
 from blueprints.auth import auth_bp
 from blueprints.citizen import citizen_bp
 from blueprints.admin import admin_bp
+from blueprints.api import api_bp
 
 app.register_blueprint(main_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(citizen_bp)
 app.register_blueprint(admin_bp)
+app.register_blueprint(api_bp)
+
+# Isentar a API de proteção CSRF (padrão para APIs REST que usam outros métodos de auth)
+csrf.exempt(api_bp)
 
 
 # ============= INICIALIZAÇÃO DO BANCO DE DADOS =============
