@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2 class="mb-3">Relatório Pessoal de Descartes</h2>
+<h2 class="mb-3"><i class="bi bi-bar-chart-line text-success"></i> Relatório Pessoal de Descartes</h2>
 
-<div class="row mb-4">
+<!-- Cartões de resumo -->
+<div class="row mb-4 g-3">
   <div class="col-md-4">
     <div class="card text-bg-primary shadow-sm">
       <div class="card-body">
@@ -30,61 +31,121 @@
   </div>
 </div>
 
-{% if descartes %}
-<div class="table-responsive">
-  <table class="table table-striped table-bordered">
-    <thead class="table-dark">
-      <tr>
-        <th>Data/Hora</th>
-        <th>Ponto (ID)</th>
-        <th>Tipo</th>
-        <th>Peso (kg)</th>
-        <th>Pontos</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for d in descartes %}
-      <tr>
-        <td>{{ d.data_hora }}</td>
-        <td>{{ d.ponto_id }}</td>
-        <td>{{ d.tipo_residuo }}</td>
-        <td>{{ "%.2f"|format(d.peso_kg) }}</td>
-        <td>{{ d.pontos_gerados }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<!-- Filtros -->
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-white">
+    <h6 class="mb-0"><i class="bi bi-funnel text-success"></i> Filtros</h6>
+  </div>
+  <div class="card-body">
+    <form method="GET" action="{{ url_for('citizen.relatorio_pessoal') }}" class="row g-3 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label">Tipo de Resíduo</label>
+        <select name="tipo" class="form-select">
+          <option value="">Todos</option>
+          {% for t in tipos_unicos %}
+          <option value="{{ t }}" {% if tipo_filtro == t %}selected{% endif %}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Data Início</label>
+        <input type="date" name="data_inicio" class="form-control" value="{{ data_inicio }}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Data Fim</label>
+        <input type="date" name="data_fim" class="form-control" value="{{ data_fim }}">
+      </div>
+      <div class="col-md-2 d-flex gap-2">
+        <button type="submit" class="btn btn-success w-100">Filtrar</button>
+        <a href="{{ url_for('citizen.relatorio_pessoal') }}" class="btn btn-outline-secondary w-100">Limpar</a>
+      </div>
+    </form>
+  </div>
 </div>
 
+{% if descartes %}
+<!-- Tabela paginada -->
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center">
+    <h6 class="mb-0">Registros de Descarte</h6>
+    <small class="text-muted">Página {{ paginacao.page }} de {{ paginacao.pages }} ({{ total_descartes }} registros)</small>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Data/Hora</th>
+            <th>Ponto de Coleta</th>
+            <th>Tipo</th>
+            <th>Peso (kg)</th>
+            <th>Pontos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in descartes %}
+          <tr>
+            <td>{{ d.data_hora.strftime("%d/%m/%Y %H:%M") }}</td>
+            <td>{{ d.ponto_id }}</td>
+            <td>{{ d.tipo_residuo }}</td>
+            <td>{{ "%.2f"|format(d.peso_kg) }}</td>
+            <td><span class="badge bg-success">+{{ d.pontos_gerados }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Paginação -->
+{% if paginacao.pages > 1 %}
+<nav aria-label="Paginação">
+  <ul class="pagination justify-content-center">
+    <li class="page-item {% if not paginacao.has_prev %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('citizen.relatorio_pessoal', pagina=paginacao.prev_num, tipo=tipo_filtro, data_inicio=data_inicio, data_fim=data_fim) }}">Anterior</a>
+    </li>
+    {% for p in paginacao.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+      {% if p %}
+        <li class="page-item {% if p == paginacao.page %}active{% endif %}">
+          <a class="page-link" href="{{ url_for('citizen.relatorio_pessoal', pagina=p, tipo=tipo_filtro, data_inicio=data_inicio, data_fim=data_fim) }}">{{ p }}</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">…</span></li>
+      {% endif %}
+    {% endfor %}
+    <li class="page-item {% if not paginacao.has_next %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('citizen.relatorio_pessoal', pagina=paginacao.next_num, tipo=tipo_filtro, data_inicio=data_inicio, data_fim=data_fim) }}">Próxima</a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+
+<!-- Gráfico -->
 <hr class="my-4">
-
 <h4>Distribuição de peso por tipo de resíduo</h4>
-
 {% if labels_tipos and pesos_tipos %}
-  <div class="mt-3">
+  <div class="mt-3" style="max-width: 600px;">
     <canvas id="graficoTipos"></canvas>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const ctxTipos = document.getElementById('graficoTipos').getContext('2d');
-      const labelsTipos = {{ labels_tipos|tojson }};
-      const dadosTipos = {{ pesos_tipos|tojson }};
-
       new Chart(ctxTipos, {
         type: 'bar',
         data: {
-          labels: labelsTipos,
+          labels: {{ labels_tipos|tojson }},
           datasets: [{
             label: 'Peso total por tipo (kg)',
-            data: dadosTipos,
+            data: {{ pesos_tipos|tojson }},
+            backgroundColor: 'rgba(25, 135, 84, 0.7)',
+            borderColor: 'rgba(25, 135, 84, 1)',
+            borderWidth: 1
           }]
         },
         options: {
           responsive: true,
-          scales: {
-            y: { beginAtZero: true }
-          }
+          scales: { y: { beginAtZero: true } }
         }
       });
     });
@@ -94,14 +155,21 @@
 {% endif %}
 
 <div class="mt-4">
-    <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Voltar</a>
-    <a href="{{ url_for('citizen.exportar_relatorio_csv') }}" class="btn btn-outline-primary">
-        Exportar relatório em CSV
-    </a>
+  <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Voltar</a>
+  <a href="{{ url_for('citizen.exportar_relatorio_csv') }}" class="btn btn-outline-primary">
+    <i class="bi bi-download"></i> Exportar relatório em CSV
+  </a>
 </div>
 
 {% else %}
-  <div class="alert alert-info">Você ainda não possui descartes registrados.</div>
+  <div class="alert alert-info">
+    {% if tipo_filtro or data_inicio or data_fim %}
+      Nenhum descarte encontrado com os filtros aplicados.
+      <a href="{{ url_for('citizen.relatorio_pessoal') }}">Limpar filtros</a>.
+    {% else %}
+      Você ainda não possui descartes registrados.
+    {% endif %}
+  </div>
 {% endif %}
 
 {% endblock %}
